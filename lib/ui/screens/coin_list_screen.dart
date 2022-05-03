@@ -16,6 +16,7 @@ class CoinListScreen extends StatelessWidget {
             ..add(LoadCoins()),
       child: Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: const Text('CoinPogi'),
         ),
         body: Center(
@@ -34,9 +35,7 @@ class CoinListScreen extends StatelessWidget {
                         itemCount: state.coinList.length,
                         itemBuilder: ((context, index) {
                           return CoinCard(
-                            coinName: state.coinList[index].name!,
-                            symbol: state.coinList[index].symbol!,
-                            coinImageUrl: state.coinList[index].id!,
+                            coinModel: state.coinList[index],
                           );
                         }),
                       ),
