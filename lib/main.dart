@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'data/repository/coin_repository.dart';
 import 'ui/screens/coin_list_screen.dart';
 
 void main() {
@@ -11,12 +13,15 @@ class CoinPogiApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return RepositoryProvider(
+      create: (context) => CoinRepository(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: const CoinListScreen(),
       ),
-      home: const CoinListScreen(),
     );
   }
 }
