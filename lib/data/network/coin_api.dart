@@ -4,7 +4,7 @@ import '../../constants/strings.dart';
 
 class CoinApi {
   Future<http.Response> loadCoins() async {
-    final uriParsed = Uri.parse('${Strings.baseApiUrl}/coins');
+    final uriParsed = Uri.parse('${Strings.baseApiUrl}/ticker');
 
     final response = await http.get(uriParsed);
 
