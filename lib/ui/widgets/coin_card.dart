@@ -6,69 +6,73 @@ class CoinCard extends StatelessWidget {
   const CoinCard({
     Key? key,
     required this.coinModel,
+    this.onTap,
   }) : super(key: key);
 
   final Coin coinModel;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
-    final priceUsdFormat = double.parse(coinModel.priceUsd!).toStringAsFixed(2);
     final is7DIncrease =
         double.parse(coinModel.percentChange7D!) > 0 ? true : false;
     final is1HIncrease =
         double.parse(coinModel.percentChange1H!) > 0 ? true : false;
 
-    return Card(
-      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20.00),
-        child: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: _buildCircleAvatar(coinModel.id ?? ''),
-            ),
-            Expanded(
-              flex: 1,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(coinModel.name ?? ''),
-                  Text(coinModel.symbol ?? ''),
-                ],
+    return GestureDetector(
+      onTap: onTap,
+      child: Card(
+        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20.00),
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: _buildCircleIcon(coinModel.id ?? ''),
               ),
-            ),
-            Expanded(
-              flex: 1,
-              child: Column(
-                // crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text('USD $priceUsdFormat'),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      _buildArrowIcon(is1HIncrease),
-                      Text(' ${coinModel.percentChange1H!} %'),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
+              Expanded(
                 flex: 1,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildSparkLineImage(coinModel.id!),
+                    Text(coinModel.name ?? ''),
+                    Text(coinModel.symbol ?? ''),
+                  ],
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: Column(
+                  // crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text('USD ${formatAmount(coinModel.priceUsd!)}'),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        _buildArrowIcon(is7DIncrease),
-                        Text(' ${coinModel.percentChange7D!} %'),
+                        _buildArrowIcon(is1HIncrease),
+                        Text(' ${coinModel.percentChange1H!} %'),
                       ],
                     ),
                   ],
-                ))
-          ],
+                ),
+              ),
+              Expanded(
+                  flex: 1,
+                  child: Column(
+                    children: [
+                      _buildSparkLineImage(coinModel.id!),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          _buildArrowIcon(is7DIncrease),
+                          Text(' ${coinModel.percentChange7D!} %'),
+                        ],
+                      ),
+                    ],
+                  ))
+            ],
+          ),
         ),
       ),
     );
@@ -76,31 +80,23 @@ class CoinCard extends StatelessWidget {
 
   Icon _buildArrowIcon(bool isIncrease) {
     return isIncrease
-        ? Icon(
+        ? const Icon(
             Icons.arrow_upward,
             size: 12,
           )
-        : Icon(
+        : const Icon(
             Icons.arrow_downward,
             size: 12,
           );
   }
 
-  Icon _buildIncreaseDecreaseIcon(bool isIncrease) {
-    return isIncrease
-        ? Icon(
-            Icons.add,
-            size: 12,
-          )
-        : Icon(
-            Icons.remove,
-            size: 12,
-          );
+  String formatAmount(String amount) {
+    return double.parse(amount).toStringAsFixed(2);
   }
 
   Widget _buildSparkLineImage(String coinId) {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       height: 50,
       child: SvgPicture.network(
         'https://cryptocurrencyliveprices.com/sparkline/$coinId.svg',
@@ -113,7 +109,7 @@ class CoinCard extends StatelessWidget {
     );
   }
 
-  Widget _buildCircleAvatar(String coinImageUrl) {
+  Widget _buildCircleIcon(String coinImageUrl) {
     return Container(
       width: 40.0,
       height: 40.0,

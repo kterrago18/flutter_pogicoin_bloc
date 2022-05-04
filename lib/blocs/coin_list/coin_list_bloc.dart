@@ -32,7 +32,11 @@ class CoinListBloc extends Bloc<CoinListEvent, CoinListState> {
     } on SocketException {
       emit(CoinListLoadingError());
     } catch (e) {
-      emit(CoinListLoadingFailed(errorMessage: e.toString()));
+      emit(
+        CoinListLoadingFailed(
+          errorMessage: e.toString(),
+        ),
+      );
     }
   }
 }

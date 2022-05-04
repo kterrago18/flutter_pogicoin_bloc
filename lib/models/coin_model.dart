@@ -57,9 +57,13 @@ class Coin {
         circulatingSupply: json["circulating_supply"],
         totalSupply: json["total_supply"],
         maxSupply: json["max_supply"],
-        percentChange1H: json["percent_change_1h"],
+        percentChange1H: json["percent_change_1h"].toString().isEmpty
+            ? '0.00'
+            : json["percent_change_1h"],
         percentChange24H: json["percent_change_24h"],
-        percentChange7D: json["percent_change_7d"],
+        percentChange7D: json["percent_change_7d"].toString().isEmpty
+            ? '0.00'
+            : json["percent_change_7d"],
         lastUpdated: json["last_updated"],
       );
 
