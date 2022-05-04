@@ -16,6 +16,7 @@ class CoinPogiApp extends StatelessWidget {
     return RepositoryProvider(
       create: (context) => CoinRepository(),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
           primarySwatch: Colors.blue,
